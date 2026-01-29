@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>代理切换</title>
+    <script>
+        // 代理列表，自动检测可用
+        const proxies = [
+            'https://ghfast.top/',
+            'https://ghps.cc/',
+            'https://ghproxy.net/',
+            'https://mirror.ghproxy.com/'
+        ];
+        
+        const githubRaw = 'https://raw.githubusercontent.com/lixiaozhou88/TV/refs/heads/main/xmz.jar';
+        
+        // 顺序尝试
+        async function tryProxy() {
+            for (let proxy of proxies) {
+                try {
+                    const response = await fetch(proxy + githubRaw, {method: 'HEAD'});
+                    if (response.ok) {
+                        window.location.href = proxy + githubRaw;
+                        return;
+                    }
+                } catch(e) {}
+            }
+            // 都失败，直链
+            window.location.href = githubRaw;
+        }
+        
+        tryProxy();
+    </script>
+</head>
+<body>加载中...</body>
+</html>
